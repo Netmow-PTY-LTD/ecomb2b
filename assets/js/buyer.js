@@ -516,7 +516,7 @@ const BuyerPortal = {
               </div>
 
               <button type="submit" class="btn btn-primary btn-lg btn-block mt-4" id="submit-order-btn" ${!summary.isMinOrderMet ? 'disabled' : ''}>
-                <i data-lucide="check-circle-2"></i> Submit Wholesale Purchase Order (${App.formatCurrency(summary.total)})
+                <i data-lucide="check-circle-2"></i> Confirm Purchase Order (${App.formatCurrency(summary.total)})
               </button>
             </form>
           </div>

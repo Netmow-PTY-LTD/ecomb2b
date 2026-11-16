@@ -54,9 +54,10 @@
   border-right-color: #1E293B;
 }
 
-/* Sidebar Headers */
+/* Sidebar Headers (Reduced height & crisp white) */
 .buyer-sidebar-header, .admin-sidebar-header {
-  padding: 20px 18px;
+  padding: 12px 16px;
+  min-height: 52px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   justify-content: space-between;
@@ -67,6 +68,34 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.admin-brand h2, .buyer-brand h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #FFFFFF !important;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.admin-brand p, .buyer-brand p {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #FFFFFF !important; /* Crisp, 100% white */
+  margin: 2px 0 0;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  opacity: 0.95;
+}
+
+.admin-brand .logo-mark, .buyer-brand .logo-mark {
+  width: 32px;
+  height: 32px;
+  font-size: 0.88rem;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .sidebar-close-btn {
@@ -147,17 +176,22 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
+  padding: 9px 12px;
   border-radius: var(--radius-sm);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 600;
   color: #94A3B8;
   transition: all var(--transition-fast);
   text-decoration: none;
 }
 
-.buyer-nav-item span, .admin-sidebar-nav a span {
-  flex: 1;
+.buyer-nav-item .nav-label,
+.admin-sidebar-nav a .nav-label,
+.buyer-nav-item > span:not(.sidebar-pill-badge),
+.admin-sidebar-nav a > span:not(.sidebar-pill-badge) {
+  flex: 1 1 auto;
+  min-width: 0;
+  line-height: 1.3;
 }
 
 .buyer-nav-item:hover, .admin-sidebar-nav a:hover {
@@ -176,12 +210,21 @@
 }
 
 .sidebar-pill-badge {
+  flex: 0 0 auto !important;
+  margin-left: auto;
   background: var(--color-accent);
   color: #FFF;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  padding: 1px 7px;
-  border-radius: var(--radius-full);
+  padding: 2px 7px;
+  border-radius: 12px;
+  min-width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 /* Sidebar Footers */
@@ -278,10 +321,10 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 400 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .portal-topbar-left, .admin-topbar-left {
