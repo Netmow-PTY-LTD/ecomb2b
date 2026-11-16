@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commercial Invoice - Rasa Melayu RTE Wholesale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    :root {
+      --color-primary: #123D32;
+      --color-primary-dark: #0D2C24;
+      --color-accent: #E05A47;
+      --color-gold: #C5A059;
+      --color-bg: #F8F9FA;
+      --color-surface: #FFFFFF;
+      --color-text: #1F2937;
+      --color-muted: #6B7280;
+      --color-border: #E5E7EB;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #F1F5F9;
+      color: var(--color-text);
+      line-height: 1.5;
+      font-size: 14px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==================== ACTION TOOLBAR (SCREEN ONLY) ==================== */
+    .invoice-toolbar {
+      background: #0F172A;
+      color: #FFF;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.12);
+      color: #FFF;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toolbar-btn:hover {
+      background: rgba(255,255,255,0.22);
+      color: #FFF;
+    }
+
+    .toolbar-btn-primary {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .toolbar-btn-primary:hover {
+      background: #D04835;
+    }
+
+    .toolbar-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .order-select {
+      background: #1E293B;
+      color: #FFF;
+      border: 1px solid #334155;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Container for the sheet */
+    .invoice-view-container {
+      flex: 1;
+      padding: 30px 16px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .invoice-alert-banner {
+      max-width: 860px;
+      width: 100%;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1E40AF;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      font-size: 0.84rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* ==================== INVOICE SHEET (A4 LOOK) ==================== */
+    .invoice-paper {
+      background: #FFFFFF;
+      max-width: 860px;
+      width: 100%;
+      padding: 50px 54px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid var(--color-border);
+      position: relative;
+    }
+
+    /* Watermark for prototype */
+    .invoice-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 4.5rem;
+      font-weight: 900;
+      color: rgba(18, 61, 50, 0.035);
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      pointer-events: none;
+      white-space: nowrap;
+      user-select: none;
+      z-index: 1;
+    }
+
+    /* Header */
+    .inv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .inv-brand-left {
+      max-width: 55%;
+    }
+
+    .inv-brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .inv-logo-mark {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--color-primary), #1B5B4B);
+      color: #FFF;
+      font-weight: 800;
+      font-size: 1.15rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .inv-company-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      line-height: 1.2;
+    }
+
+    .inv-company-sub {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--color-gold);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .inv-company-details {
+      font-size: 0.82rem;
+      color: #4B5563;
+      line-height: 1.45;
+      margin-top: 6px;
+    }
+
+    .inv-compliance-pills {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .inv-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      background: #F0FDF4;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+    }
+
+    .inv-header-right {
+      text-align: right;
+    }
+
+    .inv-doc-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .inv-doc-subtitle {
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .inv-meta-table {
+      font-size: 0.84rem;
+      margin-left: auto;
+    }
+
+    .inv-meta-table td {
+      padding: 3px 0;
+    }
+
+    .inv-meta-table td:first-child {
+      color: #6B7280;
+      padding-right: 14px;
+      font-weight: 500;
+    }
+
+    .inv-meta-table td:last-child {
+      font-weight: 700;
+      color: #111827;
+      text-align: right;
+    }
+
+    /* Badges */
+    .status-pill {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status-paid { background: #DCFCE7; color: #15803D; }
+    .status-pending { background: #FEF9C3; color: #854D0E; }
+    .status-credit { background: #E0E7FF; color: #3730A3; }
+    .status-delivered { background: #DCFCE7; color: #166534; }
+    .status-processing { background: #FEF3C7; color: #92400E; }
+    .status-shipped { background: #DBEAFE; color: #1E40AF; }
+
+    /* Two-col Bill To & Logistics */
+    .inv-parties-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 24px 0;
+      padding: 16px 20px;
+      background: #F8FAFC;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      position: relative;
+      z-index: 2;
+    }
+
+    .inv-party-col h4 {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .inv-party-content {
+      font-size: 0.85rem;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    .inv-party-company {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    /* Line items table */
+    .inv-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .inv-items-table th {
+      background: #F1F5F9;
+      color: #334155;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 14px;
+      border-top: 1px solid #CBD5E1;
+      border-bottom: 2px solid #94A3B8;
+      text-align: left;
+    }
+
+    .inv-items-table th.text-right,
+    .inv-items-table td.text-right {
+      text-align: right;
+    }
+
+    .inv-items-table th.text-center,
+    .inv-items-table td.text-center {
+      text-align: center;
+    }
+
+    .inv-items-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #E2E8F0;
+      font-size: 0.85rem;
+      color: #1E293B;
+    }
+
+    .inv-item-name {
+      font-weight: 600;
+      color: #0F172A;
+    }
+
+    .inv-item-meta {
+      font-size: 0.72rem;
+      color: #64748B;
+      margin-top: 2px;
+    }
+
+    /* Financials & Payment summary */
+    .inv-bottom-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .inv-payment-box {
+      background: #F8FAFC;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .inv-payment-box h4 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+    }
+
+    .inv-bank-details {
+      font-size: 0.82rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .inv-bank-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+    }
+
+    .inv-bank-label {
+      color: #64748B;
+    }
+
+    .inv-bank-val {
+      font-weight: 600;
+      color: #0F172A;
+    }
+
+    .inv-totals-box {
+      font-size: 0.85rem;
+    }
+
+    .inv-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #F1F5F9;
+      color: #475569;
+    }
+
+    .inv-total-row.grand-total {
+      border-top: 2px solid var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+      margin-top: 8px;
+      padding: 10px 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Regulatory note */
+    .inv-notice-box {
+      margin-top: 24px;
+      padding: 12px 14px;
+      background: #FEFCE8;
+      border-left: 3px solid #EAB308;
+      border-radius: 4px;
+      font-size: 0.74rem;
+      color: #713F12;
+      line-height: 1.45;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Signatures */
+    .inv-signatures-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #E2E8F0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .inv-sign-box {
+      font-size: 0.78rem;
+      color: #475569;
+    }
+
+    .inv-sign-line {
+      height: 60px;
+      border-bottom: 1px dashed #94A3B8;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 4px;
+      font-style: italic;
+      color: #94A3B8;
+      font-size: 0.72rem;
+    }
+
+    .inv-sign-name {
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    /* ==================== PRINT SPECIFIC STYLING ==================== */
+    @media print {
+      body {
+        background: #FFF !important;
+        color: #000 !important;
+      }
+
+      .no-print, .invoice-toolbar, .invoice-alert-banner {
+        display: none !important;
+      }
+
+      .invoice-view-container {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .invoice-paper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 12mm;
+      }
+
+      tr {
+        page-break-inside: avoid;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .invoice-paper {
+        padding: 24px 20px;
+      }
+
+      .inv-header {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .inv-brand-left {
+        max-width: 100%;
+      }
+
+      .inv-header-right {
+        text-align: left;
+      }
+
+      .inv-meta-table {
+        margin-left: 0;
+      }
+
+      .inv-parties-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .inv-bottom-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .inv-signatures-row {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Toolbar (Never printed) -->
+  <header class="invoice-toolbar no-print">
+    <div class="toolbar-left">
+      <button class="toolbar-btn" onclick="history.length > 1 ? history.back() : window.location.href='buyer.html?tab=orders'">
+        <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Back to Orders
+      </button>
+
+      <div class="toolbar-title">
+        <i data-lucide="file-text" style="width:18px;height:18px;color:#F59E0B;"></i>
+        <span id="toolbar-invoice-title">Commercial Invoice</span>
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+      <label style="font-size: 0.8rem; color: #94A3B8; display:flex; align-items:center; gap:6px;">
+        Switch Order:
+        <select id="invoice-order-switcher" class="order-select" onchange="InvoiceViewer.switchOrder(this.value)">
+          <!-- Options populated via JS -->
+        </select>
+      </label>
+
+      <button class="toolbar-btn toolbar-btn-primary" onclick="window.print()">
+        <i data-lucide="printer" style="width:16px;height:16px;"></i> Print / Save PDF
+      </button>
+
+      <button class="toolbar-btn" onclick="InvoiceViewer.copyInvoiceLink()">
+        <i data-lucide="share-2" style="width:16px;height:16px;"></i> Copy Link
+      </button>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="invoice-view-container">
+    <div class="invoice-alert-banner no-print" id="invoice-persistent-notice">
+      <span>
+        <i data-lucide="check-circle" style="width:16px;height:16px;display:inline;vertical-align:text-bottom;"></i>
+        <strong>Direct Page Loaded:</strong> This invoice is loaded from browser <code>localStorage</code>. Reloading or sharing this URL retains full order details.
+      </span>
+      <span style="font-size: 0.78rem; color:#6B7280;" id="invoice-url-display"></span>
+    </div>
+
+    <!-- The Printable Invoice Paper -->
+    <div class="invoice-paper" id="invoice-sheet">
+      <div class="invoice-watermark">COMMERCIAL INVOICE</div>
+
+      <!-- Header -->
+      <div class="inv-header">
+        <div class="inv-brand-left">
+          <div class="inv-brand-logo">
+            <div class="inv-logo-mark">RM</div>
+            <div>
+              <div class="inv-company-name" id="inv-seller-name">Rasa Melayu RTE Wholesale</div>
+              <div class="inv-company-sub">Central Kitchen Foodservice Distribution</div>
+            </div>
+          </div>
+          <div class="inv-company-details">
+            <div><strong>Company Reg (SSM):</strong> <span id="inv-seller-ssm">202401048821 (1564890-V)</span></div>
+            <div><strong>Plant Address:</strong> <span id="inv-seller-address">Lot 18, Central Food Logistics Hub, Persiaran Selangor, Seksyen 15, 40200 Shah Alam, Selangor</span></div>
+            <div><strong>Tel / WhatsApp:</strong> <span id="inv-seller-phone">+60 3-5519 8820</span> | <strong>Email:</strong> <span id="inv-seller-email">orders@rasamelayu-rte.com.my</span></div>
+          </div>
+          <div class="inv-compliance-pills">
+            <span class="inv-pill"><i data-lucide="award" style="width:12px;height:12px;"></i> Halal MS 1500:2009</span>
+            <span class="inv-pill"><i data-lucide="shield-check" style="width:12px;height:12px;"></i> HACCP Certified</span>
+            <span class="inv-pill"><i data-lucide="check" style="width:12px;height:12px;"></i> GMP Compliant</span>
+            <span class="inv-pill"><i data-lucide="snowflake" style="width:12px;height:12px;"></i> Cold-Chain Validated</span>
+          </div>
+        </div>
+
+        <div class="inv-header-right">
+          <div class="inv-doc-title">COMMERCIAL INVOICE</div>
+          <div class="inv-doc-subtitle">TAX & WHOLESALE DISPATCH ADVICE</div>
+          <table class="inv-meta-table">
+            <tr>
+              <td>Invoice / Order #:</td>
+              <td id="inv-meta-id" style="font-family:monospace; font-size:0.95rem; color:var(--color-primary);">-</td>
+            </tr>
+            <tr>
+              <td>Issue Date:</td>
+              <td id="inv-meta-date">-</td>
+            </tr>
+            <tr>
+              <td>Scheduled Delivery:</td>
+              <td id="inv-meta-delivery-date">-</td>
+            </tr>
+            <tr>
+              <td>Payment Terms:</td>
+              <td id="inv-meta-terms">-</td>
+            </tr>
+            <tr>
+              <td>Payment Status:</td>
+              <td id="inv-meta-pay-status">-</td>
+            </tr>
+            <tr>
+              <td>Fulfillment:</td>
+              <td id="inv-meta-fulfillment">-</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Parties: Bill To & Logistics -->
+      <div class="inv-parties-grid">
+        <div class="inv-party-col">
+          <h4><i data-lucide="building" style="width:14px;height:14px;"></i> Billed & Delivered To</h4>
+          <div class="inv-party-content">
+            <div class="inv-party-company" id="inv-buyer-company">-</div>
+            <div id="inv-buyer-ssm" style="font-size:0.78rem; color:#6B7280; margin-bottom: 4px;">SSM: -</div>
+            <div id="inv-buyer-contact">Contact: -</div>
+            <div id="inv-buyer-address" style="margin-top: 4px; font-weight: 500;">Delivery Address: -</div>
+          </div>
+        </div>
+
+        <div class="inv-party-col">
+          <h4><i data-lucide="truck" style="width:14px;height:14px;"></i> Cold-Chain Logistics & Dispatch</h4>
+          <div class="inv-party-content">
+            <div><strong>Temperature Regime:</strong> Deep Frozen (-18°C) / Chilled (+4°C) Multi-Temp</div>
+            <div><strong>Fleet Dispatch:</strong> Temperature Controlled Reefer Truck</div>
+            <div><strong>Receiving Window:</strong> 08:00 - 15:00 (F&B Receiving Dock)</div>
+            <div id="inv-order-notes" style="margin-top: 4px; font-style: italic; color:#64748B;">Notes: None</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Line items table -->
+      <table class="inv-items-table">
+        <thead>
+          <tr>
+            <th style="width: 40px;" class="text-center">#</th>
+            <th>RTE Food Product Description & SKU</th>
+            <th class="text-right" style="width: 130px;">Unit Price (RM)</th>
+            <th class="text-center" style="width: 80px;">Qty</th>
+            <th class="text-right" style="width: 140px;">Subtotal (RM)</th>
+          </tr>
+        </thead>
+        <tbody id="inv-items-tbody">
+          <!-- Populated via JS -->
+        </tbody>
+      </table>
+
+      <!-- Bottom Financials & Bank Info -->
+      <div class="inv-bottom-grid">
+        <div class="inv-payment-box">
+          <h4><i data-lucide="credit-card" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i> Payment & Remittance Instructions</h4>
+          <div class="inv-bank-details">
+            <div class="inv-bank-row">
+              <span class="inv-bank-label">Bank Name:</span>
+              <span class="inv-bank-val">Maybank Islamic Berhad</span>
+            </div>
+            <div class="inv-bank-row">
+              <span class="inv-bank-label">Account Holder:</span>
+              <span class="inv-bank-val">Rasa Melayu RTE Food Industries Sdn Bhd</span>
+            </div>
+            <div class="inv-bank-row">
+              <span class="inv-bank-label">Account Number:</span>
+              <span class="inv-bank-val" style="font-family:monospace; font-size:0.9rem;">5140 1234 5678</span>
+            </div>
+            <div class="inv-bank-row">
+              <span class="inv-bank-label">Payment Reference:</span>
+              <span class="inv-bank-val" id="inv-bank-ref" style="color:var(--color-accent);">-</span>
+            </div>
+            <div class="inv-bank-row">
+              <span class="inv-bank-label">DuitNow ID:</span>
+              <span class="inv-bank-val">202401048821 (Business Reg)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="inv-totals-box">
+          <div class="inv-total-row">
+            <span>Wholesale Subtotal:</span>
+            <strong id="inv-subtotal">RM 0.00</strong>
+          </div>
+          <div class="inv-total-row">
+            <span>Refrigerated Cold-Chain Dispatch:</span>
+            <strong id="inv-shipping">RM 0.00</strong>
+          </div>
+          <div class="inv-total-row">
+            <span>SST 0% (Wholesale Retort Exemption):</span>
+            <strong>RM 0.00</strong>
+          </div>
+          <div class="inv-total-row grand-total">
+            <span>Total Payable:</span>
+            <span id="inv-grand-total">RM 0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legal & Regulatory Note -->
+      <div class="inv-notice-box">
+        <strong>Notice of Quality & Cold-Chain Acceptance:</strong> All ready-to-eat pouches and foodservice packs are dispatched in sealed, tamper-evident barrier packaging with continuous temperature data logger monitoring. Discrepancies or temperature breaks must be endorsed on driver manifest upon physical delivery dock receiving.
+      </div>
+
+      <!-- Authorized Signatures -->
+      <div class="inv-signatures-row">
+        <div class="inv-sign-box">
+          <div class="inv-sign-line">Authorized Signatory & Central Kitchen Seal</div>
+          <div class="inv-sign-name" id="inv-sign-company">Rasa Melayu RTE Food Industries Sdn Bhd</div>
+          <div>Quality Assurance & Wholesale Dispatch Dept</div>
+        </div>
+
+        <div class="inv-sign-box">
+          <div class="inv-sign-line">Customer Signature, Receiving Name & Official Chop</div>
+          <div class="inv-sign-name" id="inv-sign-buyer-name">-</div>
+          <div>Goods Received in Good Order & Temperature Compliance</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Required Prototype Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    const InvoiceViewer = {
+      currentOrderId: null,
+
+      init() {
+        StorageEngine.init();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let orderId = urlParams.get('id');
+
+        const allOrders = StorageEngine.getOrders();
+
+        // Populate order switcher in toolbar
+        const switcher = document.getElementById("invoice-order-switcher");
+        if (switcher && allOrders.length > 0) {
+          switcher.innerHTML = allOrders.map(o => `
+            <option value="${o.id}" ${o.id === orderId ? 'selected' : ''}>${o.id} - ${o.buyerCompany ? o.buyerCompany.substring(0, 24) : 'Order'} (${App.formatCurrency(o.total)})</option>
+          `).join("");
+        }
+
+        // If no ID or ID not found, default to first available order
+        if (!orderId && allOrders.length > 0) {
+          orderId = allOrders[0].id;
+        }
+
+        this.currentOrderId = orderId;
+        this.renderInvoice(orderId);
+
+        if (urlParams.get('print') === 'true') {
+          setTimeout(() => { window.print(); }, 600);
+        }
+
+        App.initIcons();
+      },
+
+      switchOrder(newOrderId) {
+        if (!newOrderId) return;
+        const newUrl = `${window.location.pathname}?id=${encodeURIComponent(newOrderId)}`;
+        window.history.pushState({ id: newOrderId }, "", newUrl);
+        this.currentOrderId = newOrderId;
+        this.renderInvoice(newOrderId);
+        App.initIcons();
+      },
+
+      copyInvoiceLink() {
+        const fullUrl = window.location.href;
+        navigator.clipboard.writeText(fullUrl).then(() => {
+          App.toast("Invoice link copied to clipboard!", "success");
+        }).catch(() => {
+          App.toast("Link: " + fullUrl, "info");
+        });
+      },
+
+      renderInvoice(orderId) {
+        const order = StorageEngine.getOrderById(orderId);
+        const settings = StorageEngine.getSettings();
+
+        // Display current URL
+        const urlDisplay = document.getElementById("invoice-url-display");
+        if (urlDisplay) urlDisplay.textContent = `File: invoice.html?id=${orderId}`;
+
+        if (!order) {
+          document.getElementById("invoice-sheet").innerHTML = `
+            <div style="text-align: center; padding: 60px 20px;">
+              <h2 style="color: #991B1B; margin-bottom: 12px;">Invoice Not Found</h2>
+              <p style="color: #6B7280; margin-bottom: 24px;">The order ID <strong>${orderId || 'N/A'}</strong> could not be located in local storage.</p>
+              <a href="buyer.html?tab=orders" class="toolbar-btn toolbar-btn-primary" style="display:inline-flex;">Return to Buyer Orders</a>
+            </div>
+          `;
+          return;
+        }
+
+        document.title = `Commercial Invoice - ${order.id} | ${settings.companyName}`;
+        document.getElementById("toolbar-invoice-title").textContent = `Commercial Invoice: ${order.id}`;
+
+        // Settings / Seller
+        document.getElementById("inv-seller-name").textContent = settings.companyName;
+        document.getElementById("inv-seller-ssm").textContent = settings.companyReg;
+        document.getElementById("inv-seller-address").textContent = settings.address;
+        document.getElementById("inv-seller-phone").textContent = settings.phone;
+        document.getElementById("inv-seller-email").textContent = settings.email;
+        document.getElementById("inv-sign-company").textContent = settings.companyName;
+
+        // Meta
+        document.getElementById("inv-meta-id").textContent = order.id;
+        document.getElementById("inv-meta-date").textContent = App.formatDate(order.createdAt);
+        document.getElementById("inv-meta-delivery-date").textContent = App.formatDate(order.deliveryDate);
+        document.getElementById("inv-meta-terms").textContent = order.paymentMethod || 'Net 30 Terms';
+
+        // Payment status badge
+        const payStatus = order.paymentStatus || 'Pending Invoice';
+        let payBadgeClass = 'status-pending';
+        if (payStatus.toLowerCase().includes('paid')) payBadgeClass = 'status-paid';
+        else if (payStatus.toLowerCase().includes('credit')) payBadgeClass = 'status-credit';
+        document.getElementById("inv-meta-pay-status").innerHTML = `<span class="status-pill ${payBadgeClass}">${payStatus}</span>`;
+
+        // Fulfillment status badge
+        const fulfill = order.orderStatus || 'Confirmed';
+        let fulfillClass = 'status-processing';
+        if (fulfill === 'Delivered') fulfillClass = 'status-delivered';
+        else if (fulfill === 'Out for Delivery') fulfillClass = 'status-shipped';
+        document.getElementById("inv-meta-fulfillment").innerHTML = `<span class="status-pill ${fulfillClass}">${fulfill}</span>`;
+
+        // Buyer Details
+        const buyer = order.buyerId ? StorageEngine.getBuyerById(order.buyerId) : null;
+        document.getElementById("inv-buyer-company").textContent = order.buyerCompany || (buyer ? buyer.companyName : "Valued B2B Buyer");
+        document.getElementById("inv-buyer-ssm").textContent = buyer && buyer.ssmReg ? `SSM Reg: ${buyer.ssmReg}` : "SSM Reg: Verified Corporate Account";
+        document.getElementById("inv-buyer-contact").textContent = `Contact: ${order.buyerEmail || (buyer ? buyer.email : '')} | ${buyer ? buyer.phone : ''}`;
+        document.getElementById("inv-buyer-address").textContent = `Delivery Address: ${order.deliveryAddress || (buyer ? buyer.deliveryAddress : 'Standard Receiving Dock')}`;
+        document.getElementById("inv-order-notes").textContent = `Logistics Notes: ${order.notes || 'Cold-chain dispatch scheduled directly to receiving dock.'}`;
+        document.getElementById("inv-sign-buyer-name").textContent = order.buyerCompany || (buyer ? buyer.companyName : "Authorized Buyer Representative");
+
+        // Reference
+        document.getElementById("inv-bank-ref").textContent = order.id;
+
+        // Line Items Table
+        const items = order.items || [];
+        const tbody = document.getElementById("inv-items-tbody");
+        if (tbody) {
+          tbody.innerHTML = items.map((item, idx) => `
+            <tr>
+              <td class="text-center" style="color:#64748B;">${idx + 1}</td>
+              <td>
+                <div class="inv-item-name">${item.name}</div>
+                <div class="inv-item-meta">SKU: ${item.sku || ('RTE-ITM-' + String(idx + 1).padStart(3, '0'))} | Central Kitchen HACCP Batch #CK-2026-${(idx+1)*11}</div>
+              </td>
+              <td class="text-right">${App.formatCurrency(item.price)}</td>
+              <td class="text-center font-bold"><strong>${item.quantity}</strong></td>
+              <td class="text-right" style="font-weight:700; color:#0F172A;">${App.formatCurrency(item.total)}</td>
+            </tr>
+          `).join("");
+        }
+
+        // Totals
+        const subtotal = order.subtotal || order.total;
+        const shipping = order.shippingFee !== undefined ? order.shippingFee : 0;
+        document.getElementById("inv-subtotal").textContent = App.formatCurrency(subtotal);
+        document.getElementById("inv-shipping").textContent = shipping === 0 ? "FREE (Wholesale Tier)" : App.formatCurrency(shipping);
+        document.getElementById("inv-grand-total").textContent = App.formatCurrency(order.total);
+      }
+    };
+
+    window.addEventListener("DOMContentLoaded", () => {
+      InvoiceViewer.init();
+    });
+  </script>
+</body>
+</html>

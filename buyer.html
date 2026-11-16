@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Buyer Portal — DapurWarisan RTE Wholesale</title>
+  <meta name="description" content="Manage wholesale orders, quotation requests, delivery schedules, and commercial credit lines.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="background: #F8FAFC;">
+
+  <!-- Main Buyer Portal Dashboard Layout with Left Sidebar -->
+  <div class="portal-layout">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="buyer-sidebar-backdrop"></div>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="buyer-sidebar" id="buyer-sidebar">
+      <div class="buyer-sidebar-header">
+        <div class="buyer-brand">
+          <div class="logo-mark" style="width: 38px; height: 38px; font-size: 0.95rem;">B2B</div>
+          <div>
+            <h2 style="color: #FFF; font-size: 1.05rem; line-height: 1.1;">Buyer Portal</h2>
+            <p style="font-size: 0.7rem; color: #9CA3AF;">Commercial Wholesale Desk</p>
+          </div>
+        </div>
+        <button class="sidebar-close-btn" id="buyer-sidebar-close" aria-label="Close Sidebar">&times;</button>
+      </div>
+
+      <!-- Buyer Profile Card in Sidebar -->
+      <div class="buyer-sidebar-profile">
+        <div class="profile-header">
+          <strong id="buyer-sidebar-company">Sunway Bistro F&B</strong>
+          <span class="status-badge status-delivered" id="buyer-sidebar-status">Approved</span>
+        </div>
+        <div class="profile-ssm" id="buyer-sidebar-ssm">SSM: 201901048291 (1348291-V)</div>
+        <div class="profile-credit-pill" id="buyer-sidebar-credit">
+          <i data-lucide="credit-card" class="icon-xs"></i> Net 30 Days (RM 25,000)
+        </div>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="buyer-sidebar-nav">
+        <div class="sidebar-nav-label">Main Menu</div>
+
+        <a href="#" class="buyer-nav-item active" data-tab="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard Overview</span>
+        </a>
+
+        <a href="#" class="buyer-nav-item" data-tab="cart">
+          <i data-lucide="shopping-cart"></i>
+          <span>Wholesale Cart & Checkout</span>
+          <span class="sidebar-pill-badge" id="sidebar-cart-badge">0</span>
+        </a>
+
+        <a href="#" class="buyer-nav-item" data-tab="orders">
+          <i data-lucide="package"></i>
+          <span>Purchase Order History</span>
+        </a>
+
+        <a href="#" class="buyer-nav-item" data-tab="quotes">
+          <i data-lucide="file-spreadsheet"></i>
+          <span>Volume Quotations</span>
+          <span class="sidebar-pill-badge" id="sidebar-quotes-badge">0</span>
+        </a>
+
+        <div class="sidebar-nav-label">Settings & Operations</div>
+
+        <a href="#" class="buyer-nav-item" data-tab="profile">
+          <i data-lucide="building"></i>
+          <span>Company Profile</span>
+        </a>
+
+        <a href="products.html" class="buyer-nav-item">
+          <i data-lucide="store"></i>
+          <span>Browse RTE Catalogue</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="buyer-sidebar-footer">
+        <button class="buyer-footer-btn" onclick="App.openDemoHubModal()">
+          <i data-lucide="layers" class="icon-xs"></i>
+          <span>Open Demo Hub</span>
+        </button>
+
+        <a href="index.html" class="buyer-footer-btn">
+          <i data-lucide="arrow-left" class="icon-xs"></i>
+          <span>Return to Storefront</span>
+        </a>
+
+        <button class="buyer-footer-btn text-danger" onclick="AuthDemo.logout(); window.location.href='login.html';">
+          <i data-lucide="log-out" class="icon-xs"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN BUYER CONTENT AREA -->
+    <main class="portal-main">
+      <!-- Topbar Header -->
+      <div class="portal-topbar">
+        <div class="portal-topbar-left">
+          <button class="sidebar-toggle-btn" id="buyer-sidebar-toggle" aria-label="Toggle Sidebar Navigation">
+            <span></span><span></span><span></span>
+          </button>
+          <h1 id="buyer-topbar-title">Dashboard Overview</h1>
+        </div>
+
+        <div class="portal-topbar-right">
+          <button class="btn btn-sm btn-outline" onclick="BuyerPortal.switchTab('cart')" title="View Wholesale Cart">
+            <i data-lucide="shopping-cart" class="icon-xs"></i>
+            <span class="desktop-label">Cart</span>
+            <span class="cart-badge-sm" id="topbar-cart-badge">0</span>
+          </button>
+
+          <button class="btn btn-sm btn-demo-hub-pill" onclick="App.openDemoHubModal()">
+            <i data-lucide="layout-grid" class="icon-xs"></i>
+            <span class="desktop-label">Demo Hub</span>
+          </button>
+
+          <div class="topbar-user-pill desktop-only" id="topbar-user-pill">
+            <span class="badge badge-success" id="topbar-status-badge">Approved Partner</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Scroll Area -->
+      <div class="portal-content-body">
+        
+        <!-- Account Status Alert / Verification Strip -->
+        <div id="buyer-status-banner"></div>
+
+        <!-- TAB 1: DASHBOARD VIEW -->
+        <div id="view-dashboard" class="portal-view-pane">
+          <!-- Stat Metric Cards -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Total Orders</span>
+                <div class="metric-icon icon-blue"><i data-lucide="shopping-bag"></i></div>
+              </div>
+              <div class="metric-value" id="dash-total-orders">0</div>
+              <div class="metric-sub">Lifetime purchase orders</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Active Deliveries</span>
+                <div class="metric-icon icon-orange"><i data-lucide="truck"></i></div>
+              </div>
+              <div class="metric-value" id="dash-pending-orders">0</div>
+              <div class="metric-sub">In packing / cold transit</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Volume Quotes</span>
+                <div class="metric-icon icon-purple"><i data-lucide="file-text"></i></div>
+              </div>
+              <div class="metric-value" id="dash-active-quotes">0</div>
+              <div class="metric-sub">Custom volume proposals</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Wholesale Spend</span>
+                <div class="metric-icon icon-green"><i data-lucide="dollar-sign"></i></div>
+              </div>
+              <div class="metric-value" id="dash-total-spend">RM 0.00</div>
+              <div class="metric-sub">Cumulative order value</div>
+            </div>
+          </div>
+
+          <!-- Recent Orders Table Card -->
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 style="font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="clock" class="icon-sm"></i> Recent Wholesale Orders
+              </h3>
+              <button class="btn btn-outline btn-sm" onclick="BuyerPortal.switchTab('orders')">View All Orders &rsaquo;</button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Units</th>
+                    <th>Total Value</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="dash-recent-orders-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recommended Fast Reorder Section -->
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 style="font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="sparkles" class="icon-sm"></i> Fast Outlet Reorder & High-Demand RTE Items
+              </h3>
+              <a href="products.html" class="btn btn-outline btn-sm">Browse Full Catalogue</a>
+            </div>
+            <div style="padding: 20px;">
+              <div class="quick-reorder-grid" id="dash-recommended-products">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: CART & CHECKOUT VIEW -->
+        <div id="view-cart" class="portal-view-pane" style="display: none;">
+          <div id="cart-view-container">
+            <!-- Rendered dynamically via BuyerPortal.renderCartTab() -->
+          </div>
+        </div>
+
+        <!-- TAB 3: ORDERS VIEW -->
+        <div id="view-orders" class="portal-view-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">Complete Wholesale Purchase Order History</h3>
+                <p style="font-size: 0.85rem; color: #6B7280; margin-top: 2px;">Track delivery logistics, inspect packing slips, and 1-click reorder recurring stock.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="BuyerPortal.switchTab('cart')">
+                <i data-lucide="plus" class="icon-xs"></i> New Purchase Order
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Date Placed</th>
+                    <th>Cold-Chain Delivery</th>
+                    <th>Items</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-table-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: QUOTATIONS VIEW -->
+        <div id="view-quotes" class="portal-view-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">Custom Volume Quotation Requests</h3>
+                <p style="font-size: 0.85rem; color: #6B7280; margin-top: 2px;">Review negotiated high-volume prices, accept contracts, and convert directly to delivery orders.</p>
+              </div>
+              <a href="products.html" class="btn btn-outline btn-sm">Request New Quote from Catalogue</a>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Quote ID</th>
+                    <th>Date Requested</th>
+                    <th>Product Description</th>
+                    <th>Target Volume</th>
+                    <th>Quoted Unit Rate</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="quotes-table-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: COMPANY PROFILE VIEW -->
+        <div id="view-profile" class="portal-view-pane" style="display: none;">
+          <div style="background: #FFF; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm); max-width: 800px;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 6px;">Commercial Business Profile</h3>
+            <p style="font-size: 0.88rem; color: #6B7280; margin-bottom: 24px;">Keep your SSM company details and central kitchen delivery address up to date.</p>
+
+            <form id="buyer-profile-form">
+              <div class="form-row">
+                <div class="form-group flex-2">
+                  <label for="prof-company">Registered Business Name</label>
+                  <input type="text" id="prof-company" class="form-control" required>
+                </div>
+                <div class="form-group flex-1">
+                  <label for="prof-ssm">SSM Registration No.</label>
+                  <input type="text" id="prof-ssm" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="prof-pic">Person in Charge (PIC)</label>
+                  <input type="text" id="prof-pic" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="prof-phone">Phone / WhatsApp</label>
+                  <input type="tel" id="prof-phone" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="prof-email">Corporate Email</label>
+                  <input type="email" id="prof-email" class="form-control" readonly style="background: #F3F4F6;">
+                </div>
+                <div class="form-group">
+                  <label for="prof-type">Business Sector</label>
+                  <select id="prof-type" class="form-control">
+                    <option value="Restaurant / Cafe Chain">Restaurant / Cafe Chain</option>
+                    <option value="Hotel & Resort">Hotel & Resort</option>
+                    <option value="Catering & Events">Catering & Events</option>
+                    <option value="Convenience & Retail Mart">Convenience & Retail Mart</option>
+                    <option value="Institutional & School">Institutional & School</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="prof-address">Central Kitchen / Restaurant Delivery Address</label>
+                <textarea id="prof-address" class="form-control" rows="2" required></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="prof-state">State</label>
+                  <select id="prof-state" class="form-control">
+                    <option value="Selangor">Selangor</option>
+                    <option value="Kuala Lumpur">Kuala Lumpur</option>
+                    <option value="Penang">Penang</option>
+                    <option value="Johor">Johor</option>
+                    <option value="Melaka">Melaka</option>
+                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+                    <option value="Perak">Perak</option>
+                    <option value="Kedah">Kedah</option>
+                    <option value="Pahang">Pahang</option>
+                    <option value="Sabah">Sabah</option>
+                    <option value="Sarawak">Sarawak</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="prof-postcode">Postcode</label>
+                  <input type="text" id="prof-postcode" class="form-control" required>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary mt-3">
+                <i data-lucide="save"></i> Save Business Profile Changes
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/buyer.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      BuyerPortal.init();
+    });
+  </script>
+</body>
+</html>

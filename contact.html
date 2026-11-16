@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & Enquiries — DapurWarisan RTE Wholesale</title>
+  <meta name="description" content="Get in touch with DapurWarisan RTE Wholesale. Request sample tasting kits, enquire about OEM retort manufacturing, or locate our Subang central kitchen.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Bar Mount -->
+  <div id="announcement-bar-mount"></div>
+
+  <!-- Global Main Navigation Mount -->
+  <div id="main-nav-mount"></div>
+
+  <!-- Hero Header -->
+  <section class="catalogue-hero">
+    <div class="container">
+      <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-accent); text-transform: uppercase; margin-bottom: 8px;">Direct Foodservice Support</div>
+      <h1>Contact Our Wholesale & Culinary Team</h1>
+      <p>Have questions about bulk deliveries, sample tasting kits, or custom retort contracts? Our supply chain specialists are ready to assist.</p>
+    </div>
+  </section>
+
+  <!-- Contact Layout -->
+  <main class="container" style="margin-bottom: 60px;">
+    <div class="dual-col-grid" style="align-items: start;">
+      <!-- Interactive Enquiry Form -->
+      <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-sm);">
+        <h3 style="font-size: 1.35rem; margin-bottom: 6px;">Submit a Business Enquiry</h3>
+        <p style="font-size: 0.88rem; color: #6B7280; margin-bottom: 24px;">Your message will be routed directly to the Admin Management Console for instant review.</p>
+
+        <form id="contact-enquiry-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="c-name">Full Name *</label>
+              <input type="text" id="c-name" class="form-control" required placeholder="e.g. Chef Azman Hashim">
+            </div>
+            <div class="form-group">
+              <label for="c-company">Business / Organization *</label>
+              <input type="text" id="c-company" class="form-control" required placeholder="e.g. Impiana Hotel Ipoh">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="c-email">Work Email *</label>
+              <input type="email" id="c-email" class="form-control" required placeholder="chef.azman@impianahotels.com">
+            </div>
+            <div class="form-group">
+              <label for="c-phone">Phone / WhatsApp Number *</label>
+              <input type="tel" id="c-phone" class="form-control" required placeholder="+60 19-552 1190">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="c-type">Business Sector *</label>
+              <select id="c-type" class="form-control" required>
+                <option value="Hotel & Resort">Hotel & Resort</option>
+                <option value="Restaurant / Cafe Chain">Restaurant / Cafe Chain</option>
+                <option value="Catering & Events">Catering & Events</option>
+                <option value="Convenience & Retail Mart">Convenience & Retail Mart</option>
+                <option value="Institutional & School">Institutional & School</option>
+                <option value="Other">Other F&B Business</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="c-subject">Enquiry Nature *</label>
+              <select id="c-subject" class="form-control" required>
+                <option value="Sample Tasting Kit Request">Request Sample Tasting Kit</option>
+                <option value="Wholesale Regular Supply">Wholesale Regular Supply & Credit Terms</option>
+                <option value="OEM Custom Retort Packing">OEM Custom Retort Packing / Private Label</option>
+                <option value="Event Catering Bulk Supply">Event / Wedding Bulk Supply</option>
+                <option value="General Question">General Question</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="c-message">Enquiry Details & Specific Menu Requirements *</label>
+            <textarea id="c-message" class="form-control" rows="4" required placeholder="Please provide details about your menu concept, estimated monthly volume, or preferred sample items..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">
+            <i data-lucide="send"></i> Submit Business Enquiry
+          </button>
+        </form>
+      </div>
+
+      <!-- Contact Info & Interactive Map Box -->
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h3 style="font-size: 1.25rem; margin-bottom: 16px;">Central Kitchen & Wholesale Office</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.9rem;">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="color: var(--color-accent);"><i data-lucide="map-pin"></i></div>
+              <div>
+                <strong>Factory & Logistics Centre</strong>
+                <p id="contact-address-display" style="color: #6B7280; font-size: 0.85rem; margin-top: 2px;">
+                  Lot 18, Jalan Subang Utama 3, Kawasan Perindustrian Subang, 47500 Subang Jaya, Selangor, Malaysia
+                </p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="color: var(--color-accent);"><i data-lucide="phone"></i></div>
+              <div>
+                <strong>Wholesale Desk Hotline</strong>
+                <p id="contact-phone-display" style="color: #6B7280; font-size: 0.85rem; margin-top: 2px;">
+                  +60 3-5569 8820
+                </p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="color: var(--color-accent);"><i data-lucide="mail"></i></div>
+              <div>
+                <strong>General & Tender Email</strong>
+                <p id="contact-email-display" style="color: #6B7280; font-size: 0.85rem; margin-top: 2px;">
+                  wholesale@dapurwarisan.my
+                </p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="color: var(--color-accent);"><i data-lucide="clock"></i></div>
+              <div>
+                <strong>Receiving & Dispatch Hours</strong>
+                <p id="contact-hours-display" style="color: #6B7280; font-size: 0.85rem; margin-top: 2px;">
+                  Monday – Friday: 8:00 AM – 6:00 PM | Saturday: 8:00 AM – 1:00 PM
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--color-border);">
+            <a href="https://wa.me/60123849912?text=Hello%20DapurWarisan%20Wholesale%20Team" target="_blank" class="btn btn-whatsapp btn-block">
+              <i data-lucide="message-circle"></i> Direct WhatsApp Live Chat
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual Map Placeholder -->
+        <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);">
+          <div style="position: relative; aspect-ratio: 16 / 9; background: #E5E7EB; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+            <div style="width: 50px; height: 50px; background: var(--color-primary); color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; box-shadow: var(--shadow-md);">
+              <i data-lucide="navigation"></i>
+            </div>
+            <strong style="color: var(--color-primary); font-size: 1rem;">Subang Jaya F&B Industrial Hub</strong>
+            <span style="font-size: 0.8rem; color: #6B7280; margin-top: 4px;">Strategic cold-chain hub serving Greater Klang Valley, KLIA, and Port Klang</span>
+            <div style="margin-top: 12px;">
+              <span class="badge badge-success">Google Maps & Waze Ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer Mount -->
+  <div id="main-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Auto-fill query parameter if coming from OEM page
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("type") === "oem") {
+        const sub = document.getElementById("c-subject");
+        if (sub) sub.value = "OEM Custom Retort Packing";
+      }
+
+      // Handle Form Submit
+      const form = document.getElementById("contact-enquiry-form");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const enquiry = {
+            fullName: document.getElementById("c-name").value.trim(),
+            companyName: document.getElementById("c-company").value.trim(),
+            email: document.getElementById("c-email").value.trim(),
+            phone: document.getElementById("c-phone").value.trim(),
+            businessType: document.getElementById("c-type").value,
+            subject: document.getElementById("c-subject").value,
+            message: document.getElementById("c-message").value.trim(),
+            status: "new"
+          };
+
+          const saved = StorageEngine.saveEnquiry(enquiry);
+          form.reset();
+          App.toast(`Enquiry ${saved.id} submitted successfully! Admin has received your message in the dashboard.`, "success", 6000);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

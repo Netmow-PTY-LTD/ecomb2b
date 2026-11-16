@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Buyer & Admin Login — DapurWarisan RTE Wholesale</title>
+  <meta name="description" content="Sign in to your DapurWarisan B2B portal to manage wholesale orders, custom quotations, and commercial Net 30 credit lines.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="background: var(--color-bg);">
+
+  <!-- Top Announcement Bar Mount -->
+  <div id="announcement-bar-mount"></div>
+
+  <!-- Global Main Navigation Mount -->
+  <div id="main-nav-mount"></div>
+
+  <!-- Main Login Screen -->
+  <main class="container" style="padding: 60px 24px; max-width: 540px; margin: 0 auto;">
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-md);">
+      
+      <div style="text-align: center; margin-bottom: 28px;">
+        <div class="logo-mark" style="margin: 0 auto 12px; width: 50px; height: 50px; font-size: 1.3rem;">RTE</div>
+        <h2 style="font-size: 1.6rem; color: var(--color-primary);">B2B Portal Access</h2>
+        <p style="font-size: 0.88rem; color: #6B7280; margin-top: 4px;">Sign in to your wholesale buyer account or management console.</p>
+      </div>
+
+      <!-- Quick 1-Click Demo Persona Switcher (Super Useful for Testers!) -->
+      <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px;">
+        <div style="font-size: 0.78rem; font-weight: 800; text-transform: uppercase; color: var(--color-accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+          <i data-lucide="zap" class="icon-xs"></i> 1-Click Instant Demo Login
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button type="button" class="btn btn-sm btn-outline" style="justify-content: flex-start; text-align: left; background: #FFF;" onclick="loginQuick('approved')">
+            <span>👤</span>
+            <div>
+              <strong>Approved Buyer</strong> — Sunway Bistro & Bar F&B
+              <div style="font-size: 0.72rem; color: #6B7280;">sunway@bistro.my (Net 30 Credit Active)</div>
+            </div>
+          </button>
+
+          <button type="button" class="btn btn-sm btn-outline" style="justify-content: flex-start; text-align: left; background: #FFF;" onclick="loginQuick('pending')">
+            <span>⏳</span>
+            <div>
+              <strong>Pending Buyer</strong> — Melaka Heritage Kopitiam
+              <div style="font-size: 0.72rem; color: #6B7280;">melaka@kopitiam.my (Awaiting Admin SSM Review)</div>
+            </div>
+          </button>
+
+          <button type="button" class="btn btn-sm btn-outline" style="justify-content: flex-start; text-align: left; background: #FFF;" onclick="loginQuick('admin')">
+            <span>🛡️</span>
+            <div>
+              <strong>Supply Chain Admin</strong> — Chef Azman HQ
+              <div style="font-size: 0.72rem; color: #6B7280;">admin@dapurwarisan.my (Full Management Console)</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px; margin: 20px 0; color: #9CA3AF; font-size: 0.8rem;">
+        <div style="flex: 1; height: 1px; background: var(--color-border);"></div>
+        <span>OR ENTER CREDENTIALS</span>
+        <div style="flex: 1; height: 1px; background: var(--color-border);"></div>
+      </div>
+
+      <!-- Credentials Form -->
+      <form id="b2b-login-form">
+        <div class="form-group">
+          <label for="login-email">Registered Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="procurement@company.my" required>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label for="login-password" style="margin-bottom: 0;">Password</label>
+            <span style="font-size: 0.75rem; color: #6B7280;">Demo default: <code>buyer123</code></span>
+          </div>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
+          <i data-lucide="log-in"></i> Sign In to Portal
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--color-border); font-size: 0.88rem;">
+        New to DapurWarisan Wholesale? <a href="register.html" style="color: var(--color-accent); font-weight: 700;">Apply for a B2B Account &rsaquo;</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer Mount -->
+  <div id="main-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    function loginQuick(persona) {
+      const res = AuthDemo.loginAs(persona);
+      if (res.success) {
+        App.toast("Signed in successfully!", "success");
+        if (persona === "admin") {
+          window.location.href = "admin.html";
+        } else {
+          window.location.href = "buyer.html";
+        }
+      } else {
+        App.toast(res.message, "error");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("b2b-login-form");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("login-email").value;
+          const pass = document.getElementById("login-password").value;
+
+          const res = AuthDemo.login(email, pass);
+          if (res.success) {
+            App.toast("Signed in successfully!", "success");
+            if (res.role === "admin") {
+              window.location.href = "admin.html";
+            } else {
+              window.location.href = "buyer.html";
+            }
+          } else {
+            App.toast(res.message, "error");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

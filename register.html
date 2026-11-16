@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Wholesale Business Registration — DapurWarisan</title>
+  <meta name="description" content="Register your restaurant, hotel, cafe chain, or catering business for wholesale commercial RTE food pricing and Net 30 payment terms.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="background: var(--color-bg);">
+
+  <!-- Top Announcement Bar Mount -->
+  <div id="announcement-bar-mount"></div>
+
+  <!-- Global Main Navigation Mount -->
+  <div id="main-nav-mount"></div>
+
+  <!-- Main Registration Container -->
+  <main class="container" style="padding: 50px 24px; max-width: 760px; margin: 0 auto;">
+    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-md);">
+      
+      <div style="margin-bottom: 28px; border-bottom: 1px solid var(--color-border); padding-bottom: 20px;">
+        <span class="badge badge-subtle" style="margin-bottom: 8px;">B2B Wholesale Application</span>
+        <h1 style="font-size: 1.85rem; color: var(--color-primary);">Open a Corporate Buyer Account</h1>
+        <p style="font-size: 0.92rem; color: #6B7280; margin-top: 6px;">
+          Complete this registration to unlock commercial wholesale pricing, Net 30 payment credit lines, and direct cold-chain logistics across Malaysia.
+        </p>
+      </div>
+
+      <form id="b2b-register-form">
+        <h4 class="form-section-title"><i data-lucide="building" class="icon-xs"></i> 1. Corporate Identity</h4>
+        <div class="form-row">
+          <div class="form-group flex-2">
+            <label for="reg-company">Company / Business Registered Name *</label>
+            <input type="text" id="reg-company" class="form-control" required placeholder="e.g. Borneo Harvest Bistro Sdn Bhd">
+          </div>
+          <div class="form-group flex-1">
+            <label for="reg-ssm">SSM Registration No. *</label>
+            <input type="text" id="reg-ssm" class="form-control" required placeholder="202301049281 (1492810-M)">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reg-type">Business Sector *</label>
+            <select id="reg-type" class="form-control" required>
+              <option value="Restaurant / Cafe Chain">Restaurant / Cafe Chain</option>
+              <option value="Hotel & Resort">Hotel & Resort</option>
+              <option value="Catering & Events">Catering & Events</option>
+              <option value="Convenience & Retail Mart">Convenience & Retail Mart</option>
+              <option value="Institutional / University Canteen">Institutional / University Canteen</option>
+              <option value="Cloud / Ghost Kitchen">Cloud / Ghost Kitchen</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reg-pic">Person-in-Charge (PIC) Name *</label>
+            <input type="text" id="reg-pic" class="form-control" required placeholder="e.g. Chef Shahril Razak">
+          </div>
+        </div>
+
+        <h4 class="form-section-title mt-4"><i data-lucide="mail" class="icon-xs"></i> 2. Contact & Account Credentials</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reg-email">Corporate Work Email *</label>
+            <input type="email" id="reg-email" class="form-control" required placeholder="procurement@borneoharvest.my">
+            <small class="form-hint">Used for order confirmations and commercial invoices.</small>
+          </div>
+          <div class="form-group">
+            <label for="reg-phone">Contact Phone / WhatsApp *</label>
+            <input type="tel" id="reg-phone" class="form-control" required placeholder="+60 12-883 4912">
+            <small class="form-hint">For receiving bay driver coordination.</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Demo Portal Password *</label>
+          <input type="password" id="reg-password" class="form-control" required placeholder="Minimum 6 characters" value="buyer123">
+          <small class="form-hint">Demo default <code>buyer123</code> is prefilled for convenience.</small>
+        </div>
+
+        <h4 class="form-section-title mt-4"><i data-lucide="map-pin" class="icon-xs"></i> 3. Central Kitchen or Outlet Receiving Bay Address</h4>
+        <div class="form-group">
+          <label for="reg-address">Street Address & Delivery Dock Notes *</label>
+          <textarea id="reg-address" class="form-control" rows="2" required placeholder="Unit No, Building, Loading Bay details..."></textarea>
+        </div>
+
+        <div class="form-row-3">
+          <div class="form-group">
+            <label for="reg-state">State *</label>
+            <select id="reg-state" class="form-control" required>
+              <option value="Selangor" selected>Selangor</option>
+              <option value="Kuala Lumpur">Kuala Lumpur</option>
+              <option value="Penang">Penang</option>
+              <option value="Johor">Johor</option>
+              <option value="Melaka">Melaka</option>
+              <option value="Negeri Sembilan">Negeri Sembilan</option>
+              <option value="Perak">Perak</option>
+              <option value="Kedah">Kedah</option>
+              <option value="Pahang">Pahang</option>
+              <option value="Sabah">Sabah</option>
+              <option value="Sarawak">Sarawak</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reg-postcode">Postcode *</label>
+            <input type="text" id="reg-postcode" class="form-control" required placeholder="47500">
+          </div>
+          <div class="form-group">
+            <label for="reg-credit-req">Preferred Payment</label>
+            <select id="reg-credit-req" class="form-control">
+              <option value="Net 30 Days">Request Net 30 Credit</option>
+              <option value="Direct Bank Transfer">Instant Bank Transfer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="alert-box alert-info mt-4">
+          <div class="alert-icon"><i data-lucide="shield-check"></i></div>
+          <div class="alert-content">
+            <strong>Interactive Verification Process:</strong> Upon submission, your company profile will be saved to local storage with a <code>Pending Approval</code> status. You can immediately switch to the Admin Console to inspect and approve the account!
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg mt-4">
+          <i data-lucide="check-circle-2"></i> Submit Business Application
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--color-border); font-size: 0.88rem;">
+        Already have a registered account? <a href="login.html" style="color: var(--color-accent); font-weight: 700;">Sign in to Buyer Portal &rsaquo;</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer Mount -->
+  <div id="main-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("b2b-register-form");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const newBuyer = {
+            id: StorageEngine.generateId("BUY"),
+            companyName: document.getElementById("reg-company").value.trim(),
+            ssmNumber: document.getElementById("reg-ssm").value.trim(),
+            businessType: document.getElementById("reg-type").value,
+            contactPerson: document.getElementById("reg-pic").value.trim(),
+            email: document.getElementById("reg-email").value.trim(),
+            phone: document.getElementById("reg-phone").value.trim(),
+            password: document.getElementById("reg-password").value.trim(),
+            address: document.getElementById("reg-address").value.trim(),
+            state: document.getElementById("reg-state").value,
+            postcode: document.getElementById("reg-postcode").value.trim(),
+            status: "pending", // tasks.md requirement: new buyers receive Pending status
+            creditTerm: "Cash on Delivery / Pre-payment",
+            creditLimit: 0,
+            registeredAt: new Date().toISOString(),
+            approvedAt: null,
+            notes: "Newly registered B2B applicant. Awaiting SSM business verification."
+          };
+
+          // Save to local storage
+          StorageEngine.saveBuyer(newBuyer);
+
+          // Log in as this newly registered pending buyer
+          AuthDemo.setSession({
+            role: "buyer",
+            buyerId: newBuyer.id,
+            email: newBuyer.email,
+            companyName: newBuyer.companyName,
+            contactPerson: newBuyer.contactPerson,
+            status: "pending",
+            creditTerm: newBuyer.creditTerm,
+            creditLimit: 0,
+            loggedInAt: new Date().toISOString()
+          });
+
+          // Show confirmation modal with quick links
+          App.confirmModal({
+            title: "Application Submitted Successfully!",
+            message: `Your business application for <strong>${newBuyer.companyName}</strong> has been logged into the system with <strong>Pending Approval</strong> status.<br><br>You can now explore the Buyer Portal or switch to the Admin Console to approve this account!`,
+            confirmText: "Go to Buyer Portal",
+            cancelText: "Switch to Admin Console",
+            onConfirm: () => {
+              window.location.href = "buyer.html?tab=dashboard";
+            }
+          });
+
+          // Override cancel button on this modal to go to admin console
+          setTimeout(() => {
+            const cancelBtn = document.querySelector("#rte-confirm-modal .btn-secondary");
+            if (cancelBtn) {
+              cancelBtn.onclick = () => {
+                AuthDemo.loginAs('admin');
+                window.location.href = "admin.html?tab=buyers";
+              };
+            }
+          }, 50);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

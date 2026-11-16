@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Supply Chain Console — DapurWarisan RTE Wholesale</title>
+  <meta name="description" content="Central kitchen management dashboard for inventory control, B2B buyer approvals, commercial purchase order fulfillment, and wholesale quotations.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN for interactive business analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="background: #F8FAFC;">
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="sidebar-backdrop" id="admin-sidebar-backdrop"></div>
+
+  <div class="admin-layout">
+    <!-- Responsive Admin Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <div class="admin-brand">
+          <div class="logo-mark" style="width: 36px; height: 36px; font-size: 0.95rem;">HQ</div>
+          <div>
+            <h2>DapurWarisan</h2>
+            <p>Admin Supply Chain Console</p>
+          </div>
+        </div>
+        <button class="sidebar-close-btn" id="admin-sidebar-close" aria-label="Close Sidebar">&times;</button>
+      </div>
+
+      <nav class="admin-sidebar-nav">
+        <div class="nav-section-label">Main Operations</div>
+        <a href="#" class="active" data-tab="overview">
+          <i data-lucide="layout-dashboard"></i> Overview & Metrics
+        </a>
+        <a href="#" data-tab="orders">
+          <i data-lucide="shopping-cart"></i> Order Fulfillment
+        </a>
+        <a href="#" data-tab="quotes">
+          <i data-lucide="file-spreadsheet"></i> Volume Quotations
+        </a>
+        <a href="#" data-tab="inventory">
+          <i data-lucide="boxes"></i> Live Inventory Control
+        </a>
+
+        <div class="nav-section-label">Catalogue & Clients</div>
+        <a href="#" data-tab="products">
+          <i data-lucide="package"></i> Wholesale Products
+        </a>
+        <a href="#" data-tab="categories">
+          <i data-lucide="layers"></i> Product Categories
+        </a>
+        <a href="#" data-tab="buyers">
+          <i data-lucide="users"></i> B2B Buyer Accounts
+        </a>
+
+        <div class="nav-section-label">Communications & Web</div>
+        <a href="#" data-tab="enquiries">
+          <i data-lucide="inbox"></i> Inquiries & Tastings
+        </a>
+        <a href="#" data-tab="reports">
+          <i data-lucide="bar-chart-3"></i> Commercial Reports
+        </a>
+        <a href="#" data-tab="settings">
+          <i data-lucide="settings"></i> Website Settings
+        </a>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-profile">
+          <div class="admin-avatar">CA</div>
+          <div class="admin-user-info">
+            <strong>Chef Azman</strong>
+            <small>Head of Supply Chain</small>
+          </div>
+        </div>
+        <a href="index.html" title="Exit to Public Website" style="color: #9CA3AF; padding: 6px;">
+          <i data-lucide="external-link" class="icon-sm"></i>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Work Area -->
+    <main class="admin-main">
+      <!-- Top Bar -->
+      <div class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button id="admin-sidebar-toggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar Menu">
+            <span></span><span></span><span></span>
+          </button>
+          <h1 id="admin-header-title">Operational Overview & Analytics</h1>
+        </div>
+
+        <div class="admin-topbar-right">
+          <button class="btn btn-sm btn-outline" onclick="App.openDemoHubModal()">
+            <i data-lucide="layers" class="icon-xs"></i> Demo Hub
+          </button>
+          <a href="index.html" class="btn btn-sm btn-secondary" target="_blank">
+            <i data-lucide="globe" class="icon-xs"></i> View Live Site
+          </a>
+          <button class="btn btn-sm btn-danger-soft" onclick="App.confirmResetDemo()">
+            <i data-lucide="rotate-ccw" class="icon-xs"></i> Reset Demo
+          </button>
+        </div>
+      </div>
+
+      <!-- Content Scroll Body -->
+      <div class="admin-content-body">
+        
+        <!-- 1. TAB: OVERVIEW -->
+        <div id="admin-view-overview" class="admin-tab-pane">
+          <!-- Top Metric Cards -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Total Revenue (MTD)</span>
+                <div class="metric-icon icon-green"><i data-lucide="dollar-sign"></i></div>
+              </div>
+              <div class="metric-value" id="ov-sales">RM 0.00</div>
+              <div class="metric-sub">Wholesale billed orders</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Purchase Orders</span>
+                <div class="metric-icon icon-blue"><i data-lucide="shopping-bag"></i></div>
+              </div>
+              <div class="metric-value" id="ov-orders">0</div>
+              <div class="metric-sub">Order pipeline</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">B2B Buyer Accounts</span>
+                <div class="metric-icon icon-purple"><i data-lucide="building-2"></i></div>
+              </div>
+              <div class="metric-value" id="ov-buyers">0</div>
+              <div class="metric-sub">Commercial partners</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Low Stock Alert</span>
+                <div class="metric-icon icon-orange"><i data-lucide="alert-triangle"></i></div>
+              </div>
+              <div class="metric-value" id="ov-low-stock">0</div>
+              <div class="metric-sub">Under safety threshold (&le;20)</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">Pending Quotes</span>
+                <div class="metric-icon icon-amber"><i data-lucide="file-text"></i></div>
+              </div>
+              <div class="metric-value" id="ov-quotes">0</div>
+              <div class="metric-sub">Custom volume requests</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span class="metric-title">New Inquiries</span>
+                <div class="metric-icon icon-blue"><i data-lucide="inbox"></i></div>
+              </div>
+              <div class="metric-value" id="ov-enquiries">0</div>
+              <div class="metric-sub">Tasting / OEM submissions</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid Row -->
+          <div class="charts-grid-row">
+            <div class="chart-card">
+              <h3><i data-lucide="trending-up" class="icon-sm"></i> Monthly Sales & Revenue Trend (2026)</h3>
+              <div class="chart-canvas-wrap">
+                <canvas id="chart-revenue"></canvas>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h3><i data-lucide="pie-chart" class="icon-sm"></i> Product Mix by Category</h3>
+              <div class="chart-canvas-wrap">
+                <canvas id="chart-category-dist"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Activity Feed -->
+          <div class="activity-feed-card">
+            <h3 style="font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="activity" class="icon-sm"></i> Real-Time Wholesale Operations Feed
+            </h3>
+            <div class="activity-feed-list" id="ov-recent-activities">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. TAB: PRODUCTS -->
+        <div id="admin-view-products" class="admin-tab-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">Wholesale Product Master List</h3>
+                <span class="text-muted" id="admin-prod-count" style="font-size: 0.85rem;">0 Products</span>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="AdminDashboard.openEditProductModal()">
+                <i data-lucide="plus" class="icon-xs"></i> Add New RTE Product
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Product & SKU</th>
+                    <th>Category</th>
+                    <th>Base / Tier Pricing</th>
+                    <th>MOQ</th>
+                    <th>Stock Units</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-products-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. TAB: CATEGORIES -->
+        <div id="admin-view-categories" class="admin-tab-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 style="font-size: 1.2rem;">Product Categories</h3>
+              <button class="btn btn-primary btn-sm" onclick="AdminDashboard.openCategoryModal()">
+                <i data-lucide="plus" class="icon-xs"></i> Add Category
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Category Name</th>
+                    <th>Slug Identifier</th>
+                    <th>Description</th>
+                    <th>Assigned Products</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-categories-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. TAB: BUYERS -->
+        <div id="admin-view-buyers" class="admin-tab-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">B2B Buyer Accounts & Trade Verification</h3>
+                <p style="font-size: 0.85rem; color: #6B7280; margin-top: 2px;">Approve or reject business registrations to activate Net 30 wholesale buying privileges.</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Company Name & SSM</th>
+                    <th>Person in Charge & Contact</th>
+                    <th>Sector</th>
+                    <th>Credit Facility</th>
+                    <th>Status</th>
+                    <th>Verification Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-buyers-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. TAB: ORDERS -->
+        <div id="admin-view-orders" class="admin-tab-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">Commercial Purchase Orders Fulfillment</h3>
+                <p style="font-size: 0.85rem; color: #6B7280; margin-top: 2px;">Update packing statuses, manage cold-chain logistics dispatch, and generate invoices.</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Customer Company</th>
+                    <th>Order Date</th>
+                    <th>Delivery Schedule</th>
+                    <th>Items</th>
+                    <th>Total (MYR)</th>
+                    <th>Fulfillment Status</th>
+                    <th>Payment Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-orders-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. TAB: QUOTES -->
+        <div id="admin-view-quotes" class="admin-tab-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">B2B High-Volume Custom Quotations</h3>
+                <p style="font-size: 0.85rem; color: #6B7280; margin-top: 2px;">Review negotiated price requests from hotels and restaurant chains, and send quotes directly to their buyer portal.</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Quote ID</th>
+                    <th>Client Organization</th>
+                    <th>Product</th>
+                    <th>Target Units</th>
+                    <th>Quoted Rate</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-quotes-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. TAB: INVENTORY -->
+        <div id="admin-view-inventory" class="admin-tab-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">Live Factory Inventory & Batch Stock Monitor</h3>
+                <p style="font-size: 0.85rem; color: #6B7280; margin-top: 2px;">Prevent stock-outs, audit production runs, and inspect safety thresholds.</p>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>SKU Code</th>
+                    <th>Product Name</th>
+                    <th>Unit Format</th>
+                    <th>Current Stock</th>
+                    <th>Low-Stock Threshold</th>
+                    <th>Inventory Status</th>
+                    <th>Stock Adjustment</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-inventory-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. TAB: ENQUIRIES -->
+        <div id="admin-view-enquiries" class="admin-tab-pane" style="display: none;">
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 style="font-size: 1.2rem;">Inbound Contact Messages & Tasting Requests</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Enquiry ID</th>
+                    <th>Contact Person & Company</th>
+                    <th>Email & Phone</th>
+                    <th>Subject</th>
+                    <th>Received Date</th>
+                    <th>Status</th>
+                    <th>Inspect</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-enquiries-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. TAB: SETTINGS -->
+        <div id="admin-view-settings" class="admin-tab-pane" style="display: none;">
+          <div style="background: #FFF; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm); max-width: 800px;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 6px;">Website & Wholesale Company Settings</h3>
+            <p style="font-size: 0.88rem; color: #6B7280; margin-bottom: 24px;">Changes saved here immediately update the public website and headers in real-time.</p>
+
+            <form id="admin-settings-form">
+              <div class="form-row">
+                <div class="form-group flex-2">
+                  <label>Company Legal Name</label>
+                  <input type="text" id="set-company-name" class="form-control" required>
+                </div>
+                <div class="form-group flex-1">
+                  <label>SSM Registration Number</label>
+                  <input type="text" id="set-company-reg" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Corporate Tagline / Subtitle</label>
+                <input type="text" id="set-tagline" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Top Announcement Bar Message</label>
+                <input type="text" id="set-announcement" class="form-control">
+                <label class="checkbox-label mt-2" style="font-size:0.85rem; font-weight:600;">
+                  <input type="checkbox" id="set-show-announce"> Display Announcement Bar on Public Website
+                </label>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Hotline Telephone</label>
+                  <input type="text" id="set-phone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>WhatsApp Number</label>
+                  <input type="text" id="set-whatsapp" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>General Email Address</label>
+                <input type="email" id="set-email" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label>Central Kitchen Physical Address</label>
+                <textarea id="set-address" class="form-control" rows="2" required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Hero Headline Banner</label>
+                <input type="text" id="set-hero-heading" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Hero Subtitle Prose</label>
+                <textarea id="set-hero-subheading" class="form-control" rows="2"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg mt-3">
+                <i data-lucide="save"></i> Save Website Settings
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 10. TAB: REPORTS -->
+        <div id="admin-view-reports" class="admin-tab-pane" style="display: none;">
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-title">Gross Revenue (YTD)</span>
+              <div class="metric-value" id="rep-total-revenue">RM 0.00</div>
+              <div class="metric-sub">Wholesale completed orders</div>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Average Order Value (AOV)</span>
+              <div class="metric-value" id="rep-aov">RM 0.00</div>
+              <div class="metric-sub">Per commercial shipment</div>
+            </div>
+            <div class="metric-card">
+              <span class="metric-title">Processed Orders</span>
+              <div class="metric-value" id="rep-orders-count">0</div>
+              <div class="metric-sub">Transactions recorded</div>
+            </div>
+          </div>
+
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3 style="font-size: 1.15rem;">Top 5 Revenue Generating RTE Products</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Product Name</th>
+                    <th>Total Units Sold</th>
+                    <th>Total Revenue (MYR)</th>
+                  </tr>
+                </thead>
+                <tbody id="rep-top-products-tbody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/admin.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      AdminDashboard.init();
+    });
+  </script>
+</body>
+</html>

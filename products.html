@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wholesale Product Catalogue — DapurWarisan RTE Food Wholesale</title>
+  <meta name="description" content="Browse our full commercial wholesale catalogue of Malaysian Ready-to-Eat retort meals, smoked meats, pre-marinated cuts, and central kitchen pastes.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Bar Mount -->
+  <div id="announcement-bar-mount"></div>
+
+  <!-- Global Main Navigation Mount -->
+  <div id="main-nav-mount"></div>
+
+  <!-- Catalogue Header -->
+  <section class="catalogue-hero">
+    <div class="container">
+      <div style="font-size: 0.82rem; font-weight: 700; color: var(--color-accent); text-transform: uppercase; margin-bottom: 8px;">Commercial Foodservice Catalogue</div>
+      <h1>Wholesale Food Products & Master Packs</h1>
+      <p>Premium retort pouches, Texas smokehouse cuts, marinated meats, and high-yield central kitchen bases with volume-tiered commercial pricing.</p>
+    </div>
+  </section>
+
+  <!-- Main Catalogue Content -->
+  <main class="container">
+    <!-- Controls & Search Bar -->
+    <div class="catalogue-controls-bar">
+      <div class="controls-row-main">
+        <div class="search-input-wrap">
+          <i data-lucide="search"></i>
+          <input type="text" id="product-search-input" placeholder="Search by product name, SKU, ingredients, or pack format...">
+        </div>
+
+        <div class="sort-and-filters">
+          <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+            <input type="checkbox" id="filter-in-stock"> In-Stock Only
+          </label>
+
+          <select id="product-sort-select" class="form-control" style="width: auto; padding: 8px 12px; font-size: 0.85rem; font-weight: 600;">
+            <option value="featured">Sort by: Featured Bestsellers</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name-az">Name: A to Z</option>
+            <option value="stock-high">Stock Availability</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-pills-row" id="category-pills-container">
+        <!-- Rendered dynamically via ProductsController -->
+      </div>
+    </div>
+
+    <!-- Active Result Count & Status -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.88rem; color: #6B7280;">
+      <span id="catalogue-result-count">Loading products...</span>
+      <div style="font-size: 0.8rem; display: flex; align-items: center; gap: 6px;">
+        <i data-lucide="info" class="icon-xs"></i> All prices in Malaysian Ringgit (MYR). MOQ enforced at checkout.
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="product-grid" id="product-catalogue-grid">
+      <!-- Rendered dynamically via ProductsController -->
+    </div>
+  </main>
+
+  <!-- Global Footer Mount -->
+  <div id="main-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/products.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ProductsController.initCatalogue();
+    });
+  </script>
+</body>
+</html>

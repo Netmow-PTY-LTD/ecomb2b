@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details — DapurWarisan RTE Wholesale</title>
+  <meta name="description" content="View wholesale specifications, volume tiered pricing, MOQ requirements, allergens, and heating instructions for this commercial RTE food product.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Top Announcement Bar Mount -->
+  <div id="announcement-bar-mount"></div>
+
+  <!-- Global Main Navigation Mount -->
+  <div id="main-nav-mount"></div>
+
+  <!-- Single Product Main Container -->
+  <main class="container" id="product-detail-container">
+    <!-- Rendered dynamically via ProductsController.initProductDetails() -->
+  </main>
+
+  <!-- Global Footer Mount -->
+  <div id="main-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth-demo.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/products.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      ProductsController.initProductDetails();
+    });
+  </script>
+</body>
+</html>
